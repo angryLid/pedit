@@ -2,10 +2,11 @@ import { PptxChartShape } from "./shapes/PptxChartShape";
 import { PptxFile } from "./PptxFile";
 import { PptxGroupShape } from "./shapes/PptxGroupShape";
 import { PptxTextShape } from "./shapes/PptxTextShape";
-import { SlideXml } from "./typings";
+import { GraphicFrameChart, GraphicFrameTable, SlideXml } from "./typings";
 import builder from "./utils/xml-builder";
 import parser from "./utils/xml-parser";
 import { PptxImageShape } from "./shapes/PptxImageShape";
+import { PptxTableShape } from "./shapes/PptxTableShape";
 
 export class PptxSlide {
   xmlObj: SlideXml;
@@ -28,7 +29,13 @@ export class PptxSlide {
       ) || [];
     const graphs =
       this.xmlObj["p:sld"]["p:cSld"]["p:spTree"]["p:graphicFrame"]?.map(
-        (ele) => new PptxChartShape(ele, this)
+        (ele) => {
+          if ("c:chart" in ele["a:graphic"]["a:graphicData"]) {
+            return new PptxChartShape(ele as GraphicFrameChart, this);
+          } else {
+            return new PptxTableShape(ele as GraphicFrameTable);
+          }
+        }
       ) || [];
     const images =
       this.xmlObj["p:sld"]["p:cSld"]["p:spTree"]["p:pic"]?.map(

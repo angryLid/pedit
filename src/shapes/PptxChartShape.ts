@@ -2,6 +2,7 @@ import { PptxSlide } from "../PptxSlide";
 import { loadXlsx, loadXml } from "../utils/load-file";
 import {
   ChartXml,
+  GraphicDataChart,
   GraphicFrame,
   IPptxChartShape,
   RelsXml,
@@ -16,7 +17,7 @@ export class PptxChartShape implements IPptxChartShape {
   shapeType = "chart" as const;
 
   constructor(
-    private ele: GraphicFrame,
+    private ele: GraphicFrame<GraphicDataChart>,
     private slide: PptxSlide
   ) {
     this.id = ele["p:nvGraphicFramePr"]["p:cNvPr"]["@_id"];

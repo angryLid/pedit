@@ -23,6 +23,14 @@ export type Sp = {
   "p:spPr": unknown;
 };
 
+// table cell I guess
+export type Tc = {
+  "a:txBody": {
+    "a:p": P | Array<P>;
+  };
+} & {
+  [K in Attr<"hMerge" | "vMerge" | "gridSpan" | "colSpan">]?: number;
+};
 // group shape
 export type GrpSp = {
   "p:nvGrpSpPr": NvPr;
@@ -30,15 +38,27 @@ export type GrpSp = {
   "p:sp"?: Array<Sp>;
 };
 
-export type GraphicFrame = {
+export type GraphicDataChart = {
+  "c:chart": {
+    [K in Attr<"r:id">]: string;
+  };
+};
+export type GraphicDataTable = {
+  "a:tbl": {
+    "a:tr": Array<{
+      "a:tc": Array<Tc>;
+    }>;
+  };
+};
+
+export type GraphicFrameChart = GraphicFrame<GraphicDataChart>;
+export type GraphicFrameTable = GraphicFrame<GraphicDataTable>;
+
+export type GraphicFrame<T> = {
   "p:nvGraphicFramePr": NvPr;
   "p:spPr": unknown;
   "a:graphic": {
-    "a:graphicData": {
-      "c:chart": {
-        [K in Attr<"r:id">]: string;
-      };
-    };
+    "a:graphicData": T;
   };
 };
 
@@ -111,7 +131,9 @@ export type SlideXml = {
       "p:spTree": {
         "p:sp"?: Array<Sp>;
         "p:pic"?: Array<Pic>;
-        "p:graphicFrame"?: Array<GraphicFrame>;
+        "p:graphicFrame"?: Array<
+          GraphicFrame<GraphicDataTable | GraphicDataChart>
+        >;
         "p:grpSp"?: Array<GrpSp>;
       };
     };

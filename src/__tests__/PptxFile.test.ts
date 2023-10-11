@@ -49,7 +49,7 @@ test.skip(
   5 * 1000 * 60
 );
 
-test(
+test.skip(
   "set image",
   async () => {
     const f = await readFile("/Users/mzhou4w/Documents/一页多图表.pptx");
@@ -66,6 +66,28 @@ test(
 
     const g = await ppt.generate();
     await writeFile("./gg.pptx", g);
+  },
+  timeout
+);
+
+test(
+  "set table",
+  async () => {
+    const f = await readFile("/Users/mzhou4w/Documents/一页多图表.pptx");
+
+    const ppt = await PptxFile.fromFile(f);
+
+    const slide1 = await ppt.getSlide(2);
+    for (const sp of slide1) {
+      if (sp.shapeType === "table") {
+        sp.setValue(3, 3, "我不想说谎");
+        // sp.setValue(3, 1, "李世民");
+        // sp.setValue(3, 4, "君主");
+      }
+    }
+
+    const g = await ppt.generate();
+    await writeFile("./tbl.pptx", g);
   },
   timeout
 );

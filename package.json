@@ -2,9 +2,15 @@
   "name": "pedit",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/pedit.js",
+      "types": "./src/index.d.ts"
+    }
+  },
   "scripts": {
     "test": "vitest",
+    "build": "vite build",
     "prune:pptx": "node scripts/prune.mjs"
   },
   "keywords": [],

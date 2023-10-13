@@ -1,0 +1,1 @@
+export { PptxFile } from "./PptxFile";

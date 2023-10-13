@@ -50,6 +50,9 @@ export class PptxTableShape implements IPptxTableShape {
     if (Array.isArray(p["a:r"])) {
       p["a:r"] = p["a:r"][0];
     }
-    p["a:r"]["a:t"] = value.toString();
+    if (p["a:r"]) {
+      p["a:r"]["a:t"] = value.toString();
+    }
+    // TODO: if a:r tag doesn't exsit,
   }
 }

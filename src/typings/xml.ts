@@ -7,12 +7,19 @@ type NvPr = {
 };
 // P for paragraph
 type P = {
-  "a:r": R | Array<R>;
+  "a:r"?: R | Array<R>;
+  "a:pPr": {
+    [K in Attr<"algn">]: string;
+  };
 };
 // R for text run
 type R = {
   "a:t": string;
-  "a:rPr": unknown;
+  "a:rPr": {
+    [K in Attr<"kumimoji" | "lang" | "altLang" | "dirty">]: string;
+  };
+  // <a:endParaRPr kumimoji="1" lang="zh-CN" altLang="en-US" dirty="0"></a:endParaRPr>
+  // "a:endParaRPr": unknown;
 };
 // ordinary shape
 export type Sp = {

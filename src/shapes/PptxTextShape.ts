@@ -17,6 +17,24 @@ export class PptxTextShape implements IPptxTextShape {
       this.xmlObj["p:txBody"]["a:p"]["a:r"] =
         this.xmlObj["p:txBody"]["a:p"]["a:r"][0];
     }
-    this.xmlObj["p:txBody"]["a:p"]["a:r"]["a:t"] = text;
+    if (!this.xmlObj["p:txBody"]["a:p"]["a:r"]) {
+      this.xmlObj["p:txBody"]["a:p"] = {
+        "a:pPr": {
+          "@_algn": "ctr",
+        },
+        "a:r": {
+          "a:t": text,
+          // <a:rPr kumimoji="1" lang="en-US" altLang="zh-CN" dirty="0"/>
+          "a:rPr": {
+            "@_kumimoji": "1",
+            "@_lang": "en-US",
+            "@_altLang": "zh-CN",
+            "@_dirty": "0",
+          },
+        },
+      };
+    } else {
+      this.xmlObj["p:txBody"]["a:p"]["a:r"]["a:t"] = text;
+    }
   }
 }

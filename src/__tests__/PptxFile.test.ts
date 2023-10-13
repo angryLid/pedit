@@ -84,6 +84,11 @@ test(
         // sp.setValue(3, 1, "李世民");
         // sp.setValue(3, 4, "君主");
       }
+
+      // TODO：
+      if (sp.shapeType === "text") {
+        sp.setText("形状测试");
+      }
     }
 
     const g = await ppt.generate();

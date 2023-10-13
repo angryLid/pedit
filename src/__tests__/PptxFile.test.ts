@@ -78,16 +78,18 @@ test(
     const ppt = await PptxFile.fromFile(f);
 
     const slide1 = await ppt.getSlide(2);
+    let n = 1;
     for (const sp of slide1) {
       if (sp.shapeType === "table") {
-        sp.setValue(3, 3, "我不想说谎");
+        sp.setValue(3, 3, "多的是你不知道的事");
         // sp.setValue(3, 1, "李世民");
         // sp.setValue(3, 4, "君主");
       }
 
       // TODO：
       if (sp.shapeType === "text") {
-        sp.setText("形状测试");
+        sp.setText("形状测试" + n);
+        n++;
       }
     }
 

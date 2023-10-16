@@ -4,7 +4,7 @@ import { PptxSlide } from "./PptxSlide";
 export class PptxFile {
   private modifiedSlides = new Set<PptxSlide>();
   public zip: JSZip;
-  static async fromFile(file: Buffer) {
+  static async fromFile(file: Buffer | Blob) {
     const zip = await JSZip.loadAsync(file);
     return new PptxFile(zip);
   }

@@ -2,6 +2,8 @@
   "name": "pedit",
   "version": "1.0.0",
   "description": "",
+  "module": "./dist/pedit.js",
+  "types": "./src/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/pedit.js",
@@ -28,5 +30,8 @@
   "dependencies": {
     "fast-xml-parser": "^4.3.2",
     "jszip": "^3.10.1"
+  },
+  "peerDependencies": {
+    "@types/node": "^20.8.5"
   }
 }

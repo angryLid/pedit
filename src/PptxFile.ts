@@ -2,10 +2,17 @@ import JSZip from "jszip";
 import { PptxSlide } from "./PptxSlide";
 
 export class PptxFile {
-  private modifiedSlides = new Set<PptxSlide>();
+  public modifiedSlides = new Set<PptxSlide>();
   public zip: JSZip;
-  static async fromFile(file: Buffer | Blob) {
-    const zip = await JSZip.loadAsync(file);
+  generateAsync!: typeof JSZip.generateAsync;
+
+  /**
+   *
+   * @param args paramters of JSZip.loadAsync
+   * @returns new Pptx Instance
+   */
+  static async loadAsync(...args: Parameters<(typeof JSZip)["loadAsync"]>) {
+    const zip = await JSZip.loadAsync(...args);
     return new PptxFile(zip);
   }
   private constructor(zip: JSZip) {
@@ -69,15 +76,13 @@ export class PptxFile {
       throw new Error(`Page ${pageNumber} doesn't exists.`);
     }
   }
-
-  async generate() {
-    const zip = this.zip;
-    for (const slide of this.modifiedSlides) {
-      const xmlString = slide.generateXmlString();
-      zip.file(slide.filename, xmlString);
-    }
-    const generatedFile = await zip.generateAsync({ type: "uint8array" });
-
-    return generatedFile;
-  }
 }
+
+PptxFile.prototype.generateAsync = function (this: PptxFile, ...args) {
+  const zip = this.zip;
+  for (const slide of this.modifiedSlides) {
+    const xmlString = slide.generateXmlString();
+    zip.file(slide.filename, xmlString);
+  }
+  return zip.generateAsync(...args);
+} as typeof JSZip.generateAsync;

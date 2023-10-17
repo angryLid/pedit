@@ -2,11 +2,12 @@
   "name": "pedit",
   "version": "1.0.0",
   "description": "",
-  "module": "./dist/pedit.js",
+  "type": "module",
+  "module": "./dist/pedit.mjs",
   "types": "./src/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/pedit.js",
+      "import": "./dist/pedit.mjs",
       "types": "./src/index.d.ts"
     }
   },
